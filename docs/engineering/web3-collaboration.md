@@ -1,11 +1,31 @@
 # Web3 & EVM Engineering | Research, Protocols & Ventures
 
-**Technical collaboration dossier · Edition 2 · November 2026**  
+**Technical collaboration dossier · Edition 3 · November 2026**  
 Sina Kazemnezhad — Founder & venture builder, Vancouver, Canada
 
 [Personal collaboration portal](https://sina-collaborate.vercel.app) · [Public engineering evidence](#02--public-solidity-case-funded-mission-escrow) · [Reference model](reference/escrow-accounting.mjs) · [Protocol architecture](#07--architecture-for-an-onchain-economic-network) · [Build program](#11--research-and-delivery-program) · [Co-founder collaboration](#12--technical-leadership-and-co-founder-fit)
 
 > The opportunity is not another collection of token contracts. It is to engineer trustworthy, programmable economic infrastructure: systems in which human teams, autonomous agents and businesses can create assets, coordinate work, transact, and verify the result.
+
+## Portfolio-wide technical entry points
+
+Web3 collaboration spans several distinct product directions, not a single escrow demonstration. The public entry points below deliberately separate inspectable implementation, product demonstrations and research targets.
+
+| Direction | Public entry point | Current boundary |
+|---|---|---|
+| Agent economies and token-native products | [ARQANT product introduction](https://arqant-web-production.up.railway.app/) | Emerging agent economy; token issuance and funded activity are not claimed. Public product link, not private source access. |
+| RWA, private credit and tokenization | [VELTARIS repository](https://github.com/Noetfield-Systems/VELTARIS) · [Developer quickstart](https://veltaris-capital.vercel.app/developer.html) · [Credit workspace](https://veltaris-capital.vercel.app/workspace.html) | Software prototype and off-chain policy/issuance simulations; the permissioned EVM token and Foundry verification are development targets, not deployed infrastructure. |
+| Web3 discovery and wallet-native settlement | [SEEKMESH source](https://github.com/Noetfield-Systems/SEEKMESH) · [Escrow contract](https://github.com/Noetfield-Systems/SEEKMESH/blob/9e0e004d58949ebc7e26f300e96843554bbecf09/contracts/ExpeditionEscrow.sol) | Public source, wallet integration and contract tests; no funded escrow deployment or paid settlement claimed. |
+| Crypto markets and financial data | [SignalForge source](https://github.com/Noetfield-Systems/SignalForge) | Market research and data application, not a live exchange or independently validated trading system. |
+
+### Areas for substantive technical collaboration
+
+- Token lifecycle engineering: factory design, fixed-supply asset issuance, vesting, distributions, Merkle claim semantics and lifecycle accounting.
+- RWA protocol design: instrument representations, identity-bound eligibility, restricted transfers, servicing, reconciliation and the boundary between legal rights and onchain state. VELTARIS documents the intended [architecture](https://github.com/Noetfield-Systems/VELTARIS/blob/main/docs/master-blueprint.md) and distinguishes released simulations from pending contracts in its [implementation tracker](https://github.com/Noetfield-Systems/VELTARIS/blob/main/docs/execution.md).
+- Self-custodial exchange and liquidity integration: signed intents, execution quotes, slippage, settlement and failure handling.
+- Agent-native economic applications: accountable execution, wallet authorization, payment and contribution workflows.
+
+These are collaboration directions, not a claim that all listed modules are production-deployed. More detailed review of nonpublic work is available only through separately agreed, scoped access. Public product links do not confer repository access, ownership rights or proof of current availability.
 
 ## Executive technical thesis
 
