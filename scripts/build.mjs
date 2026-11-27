@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import {insertExperience,homeDiscoveries,experiences} from '../lib/experiences.mjs';
 import {Resvg} from '@resvg/resvg-js';
 import {enhancePage,worldVisual,writeSocialSvg,territories} from '../lib/design-system.mjs';
 import {discoveryBriefs,renderDiscovery} from '../lib/discovery.mjs';
@@ -16,6 +17,6 @@ fs.writeFileSync('public/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?><ur
 console.log('Public cases generated:',items.length);
 
 // Apply the same page shell after the existing curated publication pipeline.
-for(const [path,id] of [['public/index.html','home'],['public/engineering/index.html','engineering'],['public/discover/web3/index.html','web3'],['public/discover/markets/index.html','markets'],...discoveryBriefs.map(d=>['public/discover/'+d.id+'/index.html',d.id]),...items.map(d=>['public/work/'+d.slug+'/index.html','case'])]){const page=fs.readFileSync(path,'utf8');fs.writeFileSync(path,enhancePage(page,id));}
+for(const [path,id] of [['public/index.html','home'],['public/engineering/index.html','engineering'],['public/discover/web3/index.html','web3'],['public/discover/markets/index.html','markets'],...discoveryBriefs.map(d=>['public/discover/'+d.id+'/index.html',d.id]),...items.map(d=>['public/work/'+d.slug+'/index.html','case'])]){const page=fs.readFileSync(path,'utf8');let enriched=id==='home'?page.replace('<section class="section featured" id="work">',homeDiscoveries()+'<section class="section featured" id="work">'):insertExperience(page,id);enriched=enriched.replace('</head>','<link rel="stylesheet" href="/assets/experiences.css"></head>').replace('</body>','<script defer src="/assets/experiences.js"></script></body>');enriched=enriched.replace('</footer>','<div class="wrap"><a class="meet-person" href="https://sina-collaborate.vercel.app/">Meet the person behind the work ↗</a></div></footer>');fs.writeFileSync(path,enhancePage(enriched,id));}
 writeSocialSvg('public/assets/social');for(const id of ['home',...territories.map(t=>t.id)]){const path='public/assets/social/'+id;const png=new Resvg(fs.readFileSync(path+'.svg'),{font:{loadSystemFonts:true,defaultFontFamily:'DejaVu Sans'}}).render().asPng();fs.writeFileSync(path+'.png',png);}
 console.log('V5 design shell: 19 public pages plus approved cases; 17 PNG social previews');
