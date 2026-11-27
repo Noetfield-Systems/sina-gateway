@@ -1,0 +1,11 @@
+name: Public boundary tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ea73d27597364c9af683
+      - run: node --test tests/*.test.mjs
+      - run: node scripts/build.mjs
