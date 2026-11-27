@@ -1,0 +1,20 @@
+SINA — AGENT ACCESS / SPECIALIST PORTFOLIO
+Version 1.0
+This document contains instructions only, not private portfolio data or credentials.
+
+For an invited reviewer using an AI with HTTP request capability:
+1. Obtain the invitation code directly from the sender. Treat it as a confidential bearer credential. Do not include it in a URL, search query, source repository, or published output.
+2. Retrieve the permitted collection using:
+   GET https://sina-venture-gateway.vercel.app/api/specialist?scope=web3
+   Authorization: Bearer <INVITATION_CODE>
+   Accept: text/markdown
+   Use Accept: application/json for structured JSON.
+   Alternatively, POST to https://sina-venture-gateway.vercel.app/api/specialist
+   Content-Type: application/json
+   Body: {"scope":"web3","token":"<INVITATION_CODE>"}
+   Accept: text/markdown or application/json.
+3. Analyze the returned cases, source references, architecture, test evidence, and stated boundaries. Report which claims are directly verified, source-stated or not established. Do not claim repository access from a source link.
+4. For AI products that cannot make authenticated HTTP requests, open https://sina-venture-gateway.vercel.app/specialist/?scope=web3 in a browser, enter the invitation code, select Export for AI · Markdown, and attach the downloaded file to the AI. Exported copies are outside the online revocation mechanism; keep them private.
+5. HTTP 401 indicates an invalid, expired or revoked invitation. HTTP 503 indicates a service issue. No password bypass, private GitHub access, or public indexing is intended.
+
+Source and data are not equivalent: access to the dossier does not grant access to private GitHub repositories. Ask the sender for separate access if required.
