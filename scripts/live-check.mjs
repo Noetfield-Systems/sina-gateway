@@ -1,7 +1,7 @@
 // Execute from an unauthenticated runner. No cookies or bypass token.
 const base='https://sina-venture-gateway.vercel.app';
 const marker='gateway-v3-qa-'+Date.now()+'@example.com';
-async function request(path,opts){const r=await fetch(base+path,{...opts,redirect:'manual',signal:AbortSignal.timeout(10000)});return {status:r.status,body:await r.text()}}
+async function request(path,opts){const r=await fetch(base+path,{...opts,redirect:'follow',signal:AbortSignal.timeout(10000)});if(new URL(r.url).origin!==base)throw Error('Unexpected cross-origin redirect');return {status:r.status,body:await r.text()}}
 try{
 const home=await request('/');if(home.status!==200)throw Error('Anonymous homepage '+home.status);
 for(const p of ['/atlas','/atlas.html','/app.js','/aether.js','/api/projects','/portfolio/approved.json']){const r=await request(p);if(r.status!==404)throw Error('Unexpected public route '+p+' '+r.status)}
