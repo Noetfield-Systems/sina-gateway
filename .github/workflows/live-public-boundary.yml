@@ -18,10 +18,12 @@ jobs:
           grep -q 'Building intelligent systems' /tmp/home.html
           ! grep -Eiq 'github\.com|/atlas|DATABASE_URL|postgresql://' /tmp/home.html
           for path in /atlas /atlas.html /app.js /aether.js /aether-v7fx.js /api/projects /api/ventures /portfolio/approved.json /lib/portfolio.mjs /work/unapproved-fixture/; do
-            test "$(curl -s -o /dev/null -w '%{http_code}' "$BASE$path")" = 404
+            test "$(curl -Ls -o /dev/null -w '%{http_code}' "$BASE$path")" = 404
           done
           curl -fsS "$BASE/sitemap.xml" -o /tmp/sitemap.xml
           grep -q "$BASE/" /tmp/sitemap.xml
+          grep -q "$BASE/engineering/" /tmp/sitemap.xml
+          curl -fsSL "$BASE/engineering/" | grep -q 'Designing a public boundary'
           ! grep -Eiq 'atlas|private|/api/|github' /tmp/sitemap.xml
           curl -fsS "$BASE/robots.txt" | grep -q 'Disallow: /api/'
           test "$(curl -s -o /dev/null -w '%{http_code}' "$BASE/api/inquiry")" = 405
