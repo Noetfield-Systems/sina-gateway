@@ -1,0 +1,28 @@
+name: Live public boundary smoke
+on:
+  schedule:
+    - cron: '17 15 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify anonymous production boundaries
+        env:
+          BASE: https://sina-venture-gateway.vercel.app
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error "$BASE/" -o /tmp/home.html
+          grep -q 'Building intelligent systems' /tmp/home.html
+          ! grep -Eiq 'github\.com|/atlas|DATABASE_URL|postgresql://' /tmp/home.html
+          for path in /atlas /atlas.html /app.js /aether.js /aether-v7fx.js /api/projects /api/ventures /portfolio/approved.json /lib/portfolio.mjs /work/unapproved-fixture/; do
+            test "$(curl -s -o /dev/null -w '%{http_code}' "$BASE$path")" = 404
+          done
+          curl -fsS "$BASE/sitemap.xml" -o /tmp/sitemap.xml
+          grep -q "$BASE/" /tmp/sitemap.xml
+          ! grep -Eiq 'atlas|private|/api/|github' /tmp/sitemap.xml
+          curl -fsS "$BASE/robots.txt" | grep -q 'Disallow: /api/'
+          test "$(curl -s -o /dev/null -w '%{http_code}' "$BASE/api/inquiry")" = 405
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' -d '{}' "$BASE/api/inquiry")" = 400
