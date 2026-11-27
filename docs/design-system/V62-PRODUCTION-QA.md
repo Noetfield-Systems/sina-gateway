@@ -1,0 +1,6 @@
+# V6.2 production evidence (2026-11-27)
+
+- Baseline V6.1 Chromium audit: 19 Gateway routes at 390 and 1440 widths in light and dark, plus Collaborative at both widths: 78 checks. No horizontal overflow or page-level JS errors observed in this scope. 14 screenshots produced.
+- V6.2 commit 7632357af77e1fbd9f1e152bed0e1dc3ca3274f0: 21 Node tests passed. Chromium verified both studios at 320, 390 and 1440 widths, light/dark (12 route-theme checks). Escrow payout, replay rejection, unauthorized rejection, over-budget rejection, expiry/refund (615.00 returned from 1025.00 funded after a 400.00 payout and 10.00 fee), JSON download, three test candidates, contextual inquiry reset; no page errors recorded. Eight screenshots captured. Two desktop captures visually inspected and encoded as first-party WebP preview assets; no third-party imagery or unapproved venture screenshots.
+- The model does not execute EVM transactions. The code evaluator does not run an LLM or accept arbitrary visitor code. No customer traction inferred. Chromium only; no cross-browser, field performance or human interview evidence.
+- No new named ventures added to approved.json. No Fieldwork or other CRM transfer claimed. Collaborative remains independently deployed.
