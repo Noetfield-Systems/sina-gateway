@@ -16,3 +16,5 @@ test('V3 clean case route generation',()=>assert.match(fs.readFileSync('scripts/
 
 
 test('V4 interest-led discovery and private boundary',()=>{assert.equal((html.match(/class="territory" data-interest=/g)||[]).length,16);assert.equal((html.match(/data-filter="/g)||[]).length,5);assert.match(html,/id="interest-search"/);assert.match(html,/id="new"/);assert.match(html,/id="selected-interest"/);assert.match(html,/data-topic="web3"/);assert.match(html,/href="\/discover\/web3\//);assert.doesNotMatch(html,/GATEWAY-DISCOVERY-INDEX|VENTURE-CANDIDATE-REGISTRY|postgresql:\/\//);const page=fs.readFileSync('public/discover/web3/index.html','utf8');assert.match(page,/Web3 & EVM engineering/);assert.match(page,/not EVM execution/);assert.match(page,/escrow-accounting\.mjs/)});
+
+test('V4.1 contextual entry and public market reference',()=>{assert.match(html,/location\.hash==='#connect'/);assert.match(html,/href="\/discover\/markets\//);const page=fs.readFileSync('public/discover/markets/index.html','utf8');assert.match(page,/read-only crypto market research/);assert.match(page,/not financial advice/);assert.match(page,/interest=fintech#connect/)});
