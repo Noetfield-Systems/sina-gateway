@@ -1,11 +1,43 @@
 # Web3 & EVM Engineering | Research, Protocols & Ventures
 
-**Technical collaboration dossier · Edition 3 · November 2026**  
+**Technical collaboration dossier · Edition 4 · November 2026**  
 Sina Kazemnezhad — Founder & venture builder, Vancouver, Canada
 
-[Personal collaboration portal](https://sina-collaborate.vercel.app) · [Public engineering evidence](#02--public-solidity-case-funded-mission-escrow) · [Reference model](reference/escrow-accounting.mjs) · [Protocol architecture](#07--architecture-for-an-onchain-economic-network) · [Build program](#11--research-and-delivery-program) · [Co-founder collaboration](#12--technical-leadership-and-co-founder-fit)
+[Personal collaboration portal](https://sina-collaborate.vercel.app) · [Capital & tokenization review](reviews/capital-tokenization.md) · [Public Solidity evidence](#02--public-solidity-case-funded-mission-escrow) · [Reference model](reference/escrow-accounting.mjs) · [Protocol architecture](#07--architecture-for-an-onchain-economic-network) · [Build program](#11--research-and-delivery-program) · [Co-founder collaboration](#12--technical-leadership-and-co-founder-fit)
 
 > The opportunity is not another collection of token contracts. It is to engineer trustworthy, programmable economic infrastructure: systems in which human teams, autonomous agents and businesses can create assets, coordinate work, transact, and verify the result.
+
+## Start here — protocol, asset and market engineering
+
+**A technical entry point for a potential co-founder, senior Solidity engineer or protocol architect.** The work spans digital assets, tokenization, financial systems, decentralized applications and AI-native economic networks. The focus is on systems that can become useful products, not on manufacturing token contracts for their own sake.
+
+| Inspectable track | What to open first | Evidence |
+|---|---|---|
+| **RWA and private capital** | [Capital infrastructure technical review](reviews/capital-tokenization.md) · [Original simulator/API](https://github.com/Noetfield-Systems/VELTARIS/blob/5bfd84b036dff07d7a75a91d42e6cb3d9f01f829/public/capital.mjs) · [Product workspace](https://veltaris-capital.vercel.app/workspace.html) | Actual software source and 5 original unit tests plus 8,192 independent deterministic transfer cases executed; permissioned EVM issuance still pending |
+| **Protocol and stablecoin settlement** | [Solidity contract](https://github.com/Noetfield-Systems/SEEKMESH/blob/9e0e004d58949ebc7e26f300e96843554bbecf09/contracts/ExpeditionEscrow.sol) · [Foundry tests](https://github.com/Noetfield-Systems/SEEKMESH/blob/9e0e004d58949ebc7e26f300e96843554bbecf09/test/ExpeditionEscrow.t.sol) · [Web3 application](https://seekmesh-web-production.up.railway.app/) | Contract and test source; earlier accounting-model run; no fresh EVM test or funded deployment established |
+| **Agent economies** | [ARQANT public introduction](https://arqant-web-production.up.railway.app/) | Emerging token-native product and research direction; no claim of issuance, capital or public source access |
+| **Market and execution intelligence** | [SignalForge public source](https://github.com/Noetfield-Systems/SignalForge) · [Research product](https://signalforge-web-production.up.railway.app/) | Source-backed financial research and historical data; no verified live trading or strategy returns |
+
+### The wider engineering conversation
+
+The following are serious directions for technical review and joint development. They are not claimed as a single shipped system, nor as publicly released private contract packages.
+
+| Domain | Design question | Concrete engineering deliverable |
+|---|---|---|
+| Token factory and distribution | How can a wallet-owned issuer produce a reproducible token, allocation and vesting manifest? | Template-constrained factory, Merkle claims, expiry, allocation invariants and reproducible ABI/bytecode |
+| Tokenized securities and credit | How do identity, instrument rights and cash servicing remain consistent with onchain positions? | Permissioned transfer policy, position/event reconciliation, issuer authorization and a deterministic test suite |
+| DeFi and DEX infrastructure | How can user-signed intents route through existing liquidity without confusing quotes, pending orders and final settlement? | Typed quote/order adapters, allowance scoping, simulation, partial-fill and reorg accounting |
+| Token launch and treasury | How can distribution and capital workflows remain coherent without promising liquidity or treating offchain points as issued assets? | Supply/vesting register, funded claim ledger, exact-value receipts and treasury authority model |
+| Agent-native applications | What may an autonomous agent propose, and what may an explicitly authorized signer execute? | Scoped intents, simulation, nonce/deadline policy, receipt/event reconciliation and safe failure recovery |
+| Financial intelligence | What is observed market evidence versus a derived signal or simulated decision? | Timestamped source records, deterministic backtest and data-quality/freshness tests |
+
+A token contract, an economic model, a wallet UI and an issuer's legal obligations are different things. A credible joint project makes those boundaries explicit. Neither a public web page nor a private repository is evidence of an independently audited, deployed or commercially validated product.
+
+### A practical first engineering session
+
+Choose a domain above, share an architecture or a non-confidential constraint from your own project, then compare a concrete existing subsystem. For RWA, start with the [actual transfer-policy regression runner](reference/review-capital.mjs) and its [documented results](reviews/capital-tokenization.md#2-reproducible-source-level-results). For Solidity, inspect the exact escrow source and its test suite, then discuss how to add stateful Foundry invariants, fuzzing, and fork tests. For exchange infrastructure, discuss authorization, routing and receipt reconciliation rather than a generic token launch.
+
+Private work may be reviewed only through explicitly scoped access. There is no need to disclose confidential source or agree to a job, equity allocation, investment or unpaid assignment to begin a peer-level technical discussion.
 
 ## Portfolio-wide technical entry points
 
@@ -180,7 +212,8 @@ For every new public claim, record the project, source permalink, commit, verifi
 | Public repository visibility | Confirmed for SEEKMESH and SignalForge |
 | Escrow source and six test definitions | Inspected |
 | Foundry CI configuration | Inspected |
-| Fresh CI execution and independent security assessment | Not verified in this brief |
+| VELTARIS capital simulator and API handler | Pinned source executed: 5 original tests, 8,192 deterministic scenarios, 12 invalid inputs, 1 boundary and 7 direct handler cases passed; no chain execution |
+| Fresh Solidity CI execution and independent security assessment | Not verified in this brief |
 | Paid mainnet transaction and commercial traction | Not claimed |
 
 
@@ -477,6 +510,6 @@ This cadence is a proposed joint working agreement. No scheduled agent or automa
 - [Independent accounting reference model](reference/escrow-accounting.mjs)
 - [Personal collaboration portal](https://sina-collaborate.vercel.app)
 
-The pinned public source was reopened and inspected for this edition. The available commit-workflow lookup returned no matching pull-request-triggered runs; therefore fresh Solidity CI results are not asserted. No unpublished project name, private source, credential, production configuration or ownership claim has been added. The architecture, research tracks, milestones and collaboration cadence are proposals for discussion, not completed system claims.
+The pinned public sources were reopened and inspected for this edition. Edition 4 adds the capital-tokenization review and executable regression runner against byte-verified public source. The available commit-workflow lookup returned no matching pull-request-triggered runs; therefore fresh Solidity CI results are not asserted. No unpublished project name, private source, credential, production configuration or ownership claim has been added. The architecture, research tracks, milestones and collaboration cadence are proposals for discussion, not completed system claims.
 
 **Last reviewed:** 2026-11-27. This dossier is intended to evolve with verified engineering outcomes.
