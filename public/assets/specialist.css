@@ -8,3 +8,5 @@ header,footer{max-width:1600px;padding-block:26px;letter-spacing:.12em}.header-a
 @media(max-width:1000px){.intro{grid-template-columns:1fr;gap:36px;min-height:0;max-width:780px;margin:auto}.intro h1{font-size:clamp(58px,10vw,95px)}.layout{grid-template-columns:minmax(0,1fr)}aside{position:static;max-height:210px;border:1px solid var(--line);padding:18px}.cards{gap:12px}.access-panel{max-width:680px}}
 @media(max-width:600px){main{padding-top:34px}.header-actions{gap:10px}.theme-toggle{font-size:10px;padding:8px}.intro{padding:10px 0 42px}.intro h1{font-size:clamp(48px,13vw,72px)}.folio-mark{margin-top:28px;gap:10px}.case{min-height:0;padding:22px}.collection-head h1{font-size:42px}.architecture-flow{grid-template-columns:1fr}.detail-block p{font-size:15px}.detail-header p:last-child{font-size:17px}#index a{font-size:12px}footer{padding-block:24px}}
 @media(prefers-reduced-motion:reduce){.case{transition:none}.case:hover{transform:none}}
+
+.collection-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.fine a{color:var(--accent);text-underline-offset:3px}.collection-actions [hidden]{display:none!important}
