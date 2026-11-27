@@ -6,7 +6,7 @@ import {curate,escapeHtml} from '../lib/portfolio.mjs';
 fs.rmSync('public/work',{recursive:true,force:true});
 const items=curate(JSON.parse(fs.readFileSync('portfolio/approved.json','utf8')));
 const base='https://sina-venture-gateway.vercel.app';
-for(const d of discoveryBriefs){const dir='public/discover/'+d.id;fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(dir+'/index.html',renderDiscovery(d,base).replace('<aside class="aside">',worldVisual(d)+'<aside class="aside">'));}
+for(const d of discoveryBriefs){const dir='public/discover/'+d.id;fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(dir+'/index.html',renderDiscovery(d,base).replace('<aside class="aside">', '<div class="world-side">'+worldVisual(d)+'<aside class="aside">').replace('</aside></section>','</aside></div></section>'));}
 const html=fs.readFileSync('public/index.html','utf8');
 const cards=items.map(e=>'<article class="tile"><h3><a href="/work/'+e.slug+'/">'+escapeHtml(e.title)+'</a></h3><p>'+escapeHtml(e.caseStudy.problem)+'</p></article>').join('');
 if(items.length){fs.writeFileSync('public/index.html',html.replace('<div id="case-studies"></div>','<div id="case-studies" class="grid">'+cards+'</div>'));}
