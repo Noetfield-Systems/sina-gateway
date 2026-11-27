@@ -1,14 +1,14 @@
 import {neon} from '@neondatabase/serverless';
-import {validateAccess,presentCase} from '../lib/specialist.mjs';
+import {validateAccess,validateAgentAccess,presentCase} from '../lib/specialist.mjs';
 export default async function handler(req,res){
  res.setHeader('Cache-Control','private, no-store, max-age=0');
  res.setHeader('X-Robots-Tag','noindex, nofollow, noarchive');
  res.setHeader('Referrer-Policy','no-referrer');
- res.setHeader('Vary','Origin');
- if(req.method!=='POST'){res.setHeader('Allow','POST');return res.status(405).json({error:'Access requires a valid invitation.'})}
- if(!String(req.headers['content-type']||'').startsWith('application/json'))return res.status(415).json({error:'JSON required'});
+ res.setHeader('Vary','Origin, Authorization');
+ if(!['GET','POST'].includes(req.method)){res.setHeader('Allow','GET, POST');return res.status(405).json({error:'Access requires a valid invitation.'})}
+ if(req.method==='POST'&&!String(req.headers['content-type']||'').startsWith('application/json'))return res.status(415).json({error:'JSON required'});
  if(Number(req.headers['content-length']||0)>2000)return res.status(413).json({error:'Request too large'});
- let input;try{input=validateAccess(typeof req.body==='string'?JSON.parse(req.body):req.body)}catch{}
+ let input;try{input=req.method==='GET'?validateAgentAccess(req.query,req.headers.authorization):validateAccess(typeof req.body==='string'?JSON.parse(req.body):req.body)}catch{}
  if(!input)return res.status(401).json({error:'Invitation unavailable.'});
  if(!process.env.GATEWAY_DATABASE_URL)return res.status(503).json({error:'Specialist access temporarily unavailable.'});
  try{
