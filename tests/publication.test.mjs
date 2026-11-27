@@ -10,3 +10,6 @@ test('cross-venture isolation: public build has no private data imports',()=>{as
 test('sitemap/search: only generated from curated projects',()=>{const s=fs.readFileSync('scripts/build.mjs','utf8');assert.match(s,/items\.map\(e=>base\+'\/work\//);assert.match(s,/Disallow: \/api\//)});
 test('case schema and escaping',()=>{assert.equal(caseFields.length,11);assert.equal(escapeHtml('<script>'),'&lt;script&gt;')});
 test('inquiry validation and spam rejection',()=>{const x={category:categories[0],name:'QA',email:'qa@example.com',message:'Synthetic validation fixture only.',consent:'on'};assert.ok(validateInquiry(x));assert.equal(validateInquiry({...x,website:'bot'}),null);assert.equal(validateInquiry({...x,consent:'no'}),null);assert.equal(validateInquiry({...x,email:'bad'}),null)});
+
+test('V3 public engineering note and audience paths',()=>{assert.match(html,/href="\/engineering\//);assert.equal((html.match(/data-category="/g)||[]).length,4);assert.match(html,/rel="canonical"/);const note=fs.readFileSync('public/engineering/index.html','utf8');assert.match(note,/November 27, 2026/);assert.doesNotMatch(note,/DATABASE_URL|postgresql:\/\//)});
+test('V3 clean case route generation',()=>assert.match(fs.readFileSync('scripts/build.mjs','utf8'),/rmSync\('public\/work'/));
