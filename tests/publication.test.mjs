@@ -13,3 +13,6 @@ test('inquiry validation and spam rejection',()=>{const x={category:categories[0
 
 test('V3 public engineering note and audience paths',()=>{assert.match(html,/href="\/engineering\//);assert.equal((html.match(/data-category="/g)||[]).length,4);assert.match(html,/rel="canonical"/);const note=fs.readFileSync('public/engineering/index.html','utf8');assert.match(note,/November 27, 2026/);assert.doesNotMatch(note,/DATABASE_URL|postgresql:\/\//)});
 test('V3 clean case route generation',()=>assert.match(fs.readFileSync('scripts/build.mjs','utf8'),/rmSync\('public\/work'/));
+
+
+test('V4 interest-led discovery and private boundary',()=>{assert.equal((html.match(/class="territory" data-interest=/g)||[]).length,16);assert.equal((html.match(/data-filter="/g)||[]).length,5);assert.match(html,/id="interest-search"/);assert.match(html,/id="new"/);assert.match(html,/id="selected-interest"/);assert.match(html,/data-topic="web3"/);assert.match(html,/href="\/discover\/web3\//);assert.doesNotMatch(html,/GATEWAY-DISCOVERY-INDEX|VENTURE-CANDIDATE-REGISTRY|postgresql:\/\//);const page=fs.readFileSync('public/discover/web3/index.html','utf8');assert.match(page,/Web3 & EVM engineering/);assert.match(page,/not EVM execution/);assert.match(page,/escrow-accounting\.mjs/)});
