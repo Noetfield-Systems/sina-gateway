@@ -1,1 +1,87 @@
-[]
+[
+  {
+    "slug": "seekmesh",
+    "title": "SEEKMESH",
+    "approval": {
+      "status": "approved",
+      "authority": "founder",
+      "reference": "founder-launch-20261127-2218",
+      "date": "2026-11-27",
+      "scope": "public_link_description"
+    },
+    "reference": {
+      "description": "Independent Web3 discovery project exploring quests, agent directories and programmable community coordination. No funded token or settlement launch is represented here.",
+      "author": "Source: SEEKMESH public project repository",
+      "stage": "Public project reference",
+      "territories": [
+        "web3",
+        "ai",
+        "community"
+      ],
+      "url": "https://github.com/Noetfield-Systems/SEEKMESH"
+    }
+  },
+  {
+    "slug": "mochiloom",
+    "title": "Mochiloom",
+    "approval": {
+      "status": "approved",
+      "authority": "founder",
+      "reference": "founder-launch-20261127-2218",
+      "date": "2026-11-27",
+      "scope": "public_link_description"
+    },
+    "reference": {
+      "description": "A tiny-world entertainment project with virtual companions, skill games and digital collectibles. Play Coins are game units, not monetary assets.",
+      "author": "Source: Noetfield Systems public project repository",
+      "stage": "Public project reference",
+      "territories": [
+        "gaming",
+        "consumer"
+      ],
+      "url": "https://github.com/Noetfield-Systems/Mochiloom"
+    }
+  },
+  {
+    "slug": "triflow",
+    "title": "TriFlow",
+    "approval": {
+      "status": "approved",
+      "authority": "founder",
+      "reference": "founder-launch-20261127-2218",
+      "date": "2026-11-27",
+      "scope": "public_link_description"
+    },
+    "reference": {
+      "description": "A multilingual voice studio for spoken practice, translation and speech. Automatic multilingual recognition depends on configured speech-provider capabilities.",
+      "author": "Source: Noetfield Systems public project repository",
+      "stage": "Public project reference",
+      "territories": [
+        "consumer",
+        "ai"
+      ],
+      "url": "https://github.com/Noetfield-Systems/TriFlow"
+    }
+  },
+  {
+    "slug": "persian-llm-reference",
+    "title": "Persian LLM Reference",
+    "approval": {
+      "status": "approved",
+      "authority": "founder",
+      "reference": "founder-launch-20261127-2218",
+      "date": "2026-11-27",
+      "scope": "public_link_description"
+    },
+    "reference": {
+      "description": "An open reference for Persian language models, combining structured model records, source provenance, verification criteria and bilingual machine-readable data.",
+      "author": "Source: personal public repository by Sina Kazemnezhad",
+      "stage": "Open research reference",
+      "territories": [
+        "research",
+        "ai"
+      ],
+      "url": "https://github.com/sinakazemnezhad/persian-llm-reference"
+    }
+  }
+]
