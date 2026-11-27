@@ -1,13 +1,29 @@
-# Web3 & EVM Engineering — Technical Collaboration
+# Web3 & EVM Engineering | Research, Protocols & Ventures
 
-**Sina Kazemnezhad | Vancouver, Canada**  
-Founder & venture builder · AI, financial infrastructure and onchain systems
+**Technical collaboration dossier · Edition 2 · November 2026**  
+Sina Kazemnezhad — Founder & venture builder, Vancouver, Canada
 
-[Personal introduction](https://sina-collaborate.vercel.app) · [GitHub organization](https://github.com/Noetfield-Systems)
+[Personal collaboration portal](https://sina-collaborate.vercel.app) · [Public engineering evidence](#02--public-solidity-case-funded-mission-escrow) · [Reference model](reference/escrow-accounting.mjs) · [Protocol architecture](#07--architecture-for-an-onchain-economic-network) · [Build program](#11--research-and-delivery-program) · [Co-founder collaboration](#12--technical-leadership-and-co-founder-fit)
 
-This is a technical entry point for engineers, protocol architects, prospective technical co-founders and strategic technology partners. It is a curated engineering brief, not an investment solicitation, a claim of audited production infrastructure, or a comprehensive inventory of private ventures.
+> The opportunity is not another collection of token contracts. It is to engineer trustworthy, programmable economic infrastructure: systems in which human teams, autonomous agents and businesses can create assets, coordinate work, transact, and verify the result.
 
-**Start here:** [Solidity source](https://github.com/Noetfield-Systems/SEEKMESH/blob/9e0e004d58949ebc7e26f300e96843554bbecf09/contracts/ExpeditionEscrow.sol) · [Foundry tests](https://github.com/Noetfield-Systems/SEEKMESH/blob/9e0e004d58949ebc7e26f300e96843554bbecf09/test/ExpeditionEscrow.t.sol) · [CI workflow](https://github.com/Noetfield-Systems/SEEKMESH/blob/9e0e004d58949ebc7e26f300e96843554bbecf09/.github/workflows/onchain-escrow.yml)
+## Executive technical thesis
+
+A durable onchain company must connect protocol engineering with real product distribution and economic activity. Tokens alone do not create a market; agents alone do not produce a trusted execution system. The technical direction is to connect **intent → authorization → execution → settlement → independently verifiable evidence**, while retaining user control over funds and explicit economic boundaries.
+
+The purpose of this dossier is to initiate a substantive peer-level discussion with a technical co-founder or senior protocol engineer. We welcome disagreement on architecture, security assumptions, performance, product economics and the actual value of building onchain. A credible collaborator should be able to inspect a subsystem, reproduce its behavior, identify its weaknesses, propose a better solution and own delivery.
+
+### Evidence map — start with what can be inspected
+
+| Artifact | Evidence available today | Review path |
+|---|---|---|
+| Stablecoin mission escrow | Public Solidity source, six named tests, Foundry configuration and CI definition | [Exact source](https://github.com/Noetfield-Systems/SEEKMESH/blob/9e0e004d58949ebc7e26f300e96843554bbecf09/contracts/ExpeditionEscrow.sol) |
+| Reproducible accounting reference | Standalone deterministic BigInt model; 2,048 simulated scenarios and 22,960 payout transitions executed in the authoring runtime | [Executable model](reference/escrow-accounting.mjs) |
+| Wallet-native integration | Public Web3 application documentation and implementation repository | [SEEKMESH](https://github.com/Noetfield-Systems/SEEKMESH) |
+| Market intelligence | Public financial data and AI research application repository | [SignalForge](https://github.com/Noetfield-Systems/SignalForge) |
+| Deeper contract systems | Token factories, vesting, claims, settlement, DEX integration; scoped private review | No public source or deployment proof claimed here |
+
+**Evidence labels:** SOURCE = inspected code; MODEL = independently executable abstract behavior; RUN = recorded actual test execution; CHAIN = verified onchain receipt; AUDIT = independently assessed security; COMMERCIAL = observed external paid usage. These labels are not interchangeable. The model run is not an EVM test, and a code link is not a mainnet receipt.
 
 ## 01 — Engineering focus
 
@@ -135,7 +151,7 @@ Reference engineering ecosystems (for study, not claimed equivalence or affiliat
 
 Possible relationships: technical co-founder, protocol engineering partner, product integration partner, joint venture or scoped engineering engagement. No position, funding or equity is promised by this brief.
 
-## 06 — Evidence maintenance
+## 06 — Evidence maintenance (baseline)
 
 For every new public claim, record the project, source permalink, commit, verification method and outcome. Keep source observations separate from execution receipts, audits, production deployments and commercial results. Update this brief when a new verified artifact becomes available. Retain private review material outside the public identity repository.
 
@@ -147,5 +163,300 @@ For every new public claim, record the project, source permalink, commit, verifi
 | Fresh CI execution and independent security assessment | Not verified in this brief |
 | Paid mainnet transaction and commercial traction | Not claimed |
 
-**Reviewed:** 2026-11-27.  
-**Contact:** [Personal collaboration portal](https://sina-collaborate.vercel.app).
+
+
+## 07 — Architecture for an onchain economic network
+
+**Target architecture / research proposal.** This describes a direction for joint design, not a claim that every component exists. Each venture can adopt only the modules it needs; identities, assets, treasuries, data and contracts remain isolated by deployment and operator.
+
+```mermaid
+flowchart TD
+    A[User / business / autonomous agent] --> B[Intent and policy layer]
+    B --> C[Quote, route and risk checks]
+    C --> D[Wallet or delegated authorization]
+    D --> E[Transaction builder]
+    E --> F[Simulation and preflight]
+    F --> G[Chain execution adapter]
+    G --> H[Onchain contracts]
+    H --> I[Events and receipts]
+    I --> J[Indexing and reconciliation]
+    J --> K[Evidence and settlement state]
+    K --> L[Product and operating analytics]
+    L --> B
+    M[Independent verification] --> K
+```
+
+### Domain decomposition
+
+| Bounded context | Proposed responsibility | Explicit non-responsibility |
+|---|---|---|
+| Identity & authority | EOA authentication, optional smart accounts, scoped session permissions, nonce and replay controls | No custody of user seed phrases; login signature is not transaction consent |
+| Asset issuance | Template registry, fixed supply or explicitly governed minting, vesting, allocation manifests, verified bytecode | No arbitrary issuance behind a trusted label |
+| Distribution | Merkle claims, epoch limits, allocation accounting, expiration, referral evidence | No automatic financial entitlement from offchain points |
+| Settlement | Pre-funded escrows, exact-value payments, fee accounting, idempotent receipts | No assumption that pending transactions are final |
+| Exchange integration | Quote normalization, allowance handling, signed orders, execution and settlement reconciliation | No claim of proprietary liquidity or execution when using upstream protocols |
+| Capital workflows | Asset and obligation representations, payment schedules, attestations and permissioned transfer policies where needed | No implied authorization to offer regulated financial instruments |
+| Agent execution | Goal decomposition, tool permissions, simulation, budget constraints, human-authorized financial effects | A model must not create signing authority by reasoning about a goal |
+| Evidence | Source revision, compiler artifact, event log, chain ID, transaction hash, independently observed result | No synthetic metric promoted to live activity |
+
+### Execution semantics
+
+```mermaid
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> Quoted: validate intent
+    Quoted --> Simulated: build exact calldata
+    Simulated --> Authorized: explicit signature
+    Authorized --> Submitted: send transaction
+    Submitted --> Pending: transaction observed
+    Pending --> Confirmed: receipt success
+    Pending --> Failed: revert or expiry
+    Confirmed --> Reconciled: events and balances verified
+    Confirmed --> Pending: reorg detected
+    Reconciled --> [*]
+    Failed --> Draft: new quote
+```
+
+An authorization is bound to the chain, contract, call parameters, amount, deadline and relevant nonce. An idempotency key prevents an application retry from creating a second economic instruction. A transaction hash is a submission identifier, not success; receipt status and expected events must be checked. A confirmed receipt can be affected by a chain reorganization, so settlement policies define confirmation depth and reconciliation behavior.
+
+### Proposed interfaces
+
+The following TypeScript interface sketches are design targets, not implemented SDK declarations.
+
+```typescript
+type Address = \`0x\${string}\`;
+type Hash = \`0x\${string}\`;
+
+type EconomicIntent = {
+  id: string;
+  chainId: number;
+  actor: Address;
+  operation: "fund" | "settle" | "claim" | "swap";
+  asset: Address;
+  amountAtomic: bigint;
+  recipient: Address;
+  deadline: number;
+  policyVersion: string;
+};
+
+type ExecutionPlan = {
+  intentId: string;
+  chainId: number;
+  to: Address;
+  calldata: Hash;
+  nativeValue: bigint;
+  quoteExpiresAt: number;
+  simulationBlock: bigint;
+};
+
+type ExecutionReceipt = {
+  intentId: string;
+  chainId: number;
+  txHash: Hash;
+  blockNumber: bigint;
+  blockHash: Hash;
+  status: "confirmed" | "reverted" | "reorged";
+  observedEvents: readonly Hash[];
+};
+```
+
+Amounts are always integer atomic units and never IEEE-754 floating point. UI formatting is not ledger accounting. Cross-chain portability requires adapter-specific token addresses, finality policy, gas token and RPC assumptions rather than treating every EVM chain as identical.
+
+### Architectural decisions worth debating
+
+| Decision | Default research position | Alternative to evaluate |
+|---|---|---|
+| Contract immutability | Prefer small immutable modules with explicit migrations | Proxy upgrades only when justified; storage compatibility, admin authority and exit guarantees |
+| Authorization | User wallet signs financial effects; scoped delegated authority when genuinely needed | ERC-4337 smart accounts, EIP-712 typed permissions and EIP-1271 contract signatures |
+| Token transfers | Explicitly supported assets and exact amount semantics | Generalized ERC-20 handling with carefully specified fee/rebase behavior |
+| Liquidity | Integrate existing, well-understood liquidity first | A new AMM only if the economic and technical thesis justifies it |
+| Data | Chain events plus a reconciled offchain projection | Direct RPC-only reads for critical paths; indexer redundancy for availability |
+| Economics | Revenue tied to delivered activity and settled value | Other models evaluated against unit economics and user incentives |
+
+## 08 — Deep technical case study: escrow accounting and protocol boundaries
+
+The public contract makes a useful narrow case because it has a precise state machine and tractable accounting invariants.
+
+### Formal accounting model
+
+For campaign i, let B be the original reward budget, r the fee rate in basis points, F = floor(B × r / 10,000), S the cumulative rewards paid, and P the cumulative fee paid.
+
+- Initial deposit D = B + F.
+- For each accepted reward a, fee f = floor(a × r / 10,000), with a > 0.
+- S' = S + a, P' = P + f.
+- Before refund, outstanding liability L = B − S + F − P.
+- After successful expiry refund, L = 0; refund amount equals the pre-refund liability.
+- 0 ≤ S ≤ B and 0 ≤ P ≤ F.
+- For an exact-transfer, non-rebasing token and no unsolicited deposits, total contract balance equals the sum of open campaign liabilities.
+- With unsolicited deposits, the expected relationship is balance ≥ liability; surplus must not be misclassified as campaign funding.
+
+Integer division makes fee aggregation non-additive: the sum of floors of individual fees cannot exceed the floor of the total fee. Splitting payouts can leave fee reserve dust, which the sponsor recovers on expiry. This is a deliberate economic question for the next version: define whether fees should be rounded per payout or against cumulative spend.
+
+### Executable reference model
+
+[escrow-accounting.mjs](reference/escrow-accounting.mjs) is a dependency-free JavaScript reference model derived from the public accounting semantics. Run it with Node.js:
+
+```bash
+git clone https://github.com/Noetfield-Systems/sina-gateway.git
+cd sina-gateway
+node docs/engineering/reference/escrow-accounting.mjs
+```
+
+Observed authoring-runtime result on 2026-11-27:
+
+```json
+{
+  "status": "PASS",
+  "deterministicScenarios": 2048,
+  "payouts": 22960,
+  "explicitNegativeCases": 6,
+  "scope": "BigInt accounting model; not EVM execution"
+}
+```
+
+The run checks aggregate liability, conservation, reward and fee bounds, campaign isolation, duplicate proofs, authorization, over-budget payout, deadline behavior and duplicate refunds. The deterministic PRNG seed makes scenario generation repeatable. This is an arithmetic and state-model exercise: it does not execute Solidity, reproduce uint256 overflow behavior, simulate token callbacks, model gas, establish actual balances onchain, or provide formal verification of the contract. A differential Foundry harness should compare Solidity against the same oracle.
+
+### Proposed threat model and review register
+
+The observations below are preliminary source review and design questions, not a completed security audit.
+
+| Risk / failure mode | Observed boundary | Recommended next evidence |
+|---|---|---|
+| Verifier compromise | Designated verifier can spend a campaign's available reward budget before expiry; no rotation path in the inspected version | Explicit verifier trust policy; rotation or threshold approval design, compromise simulations |
+| Sponsor cancellation | Sponsor cannot reclaim before deadline | Document business tradeoff; assess mutual cancellation and disputes |
+| Replay | Hash uniqueness is campaign-scoped | Check canonical evidence construction and cross-campaign policy; do not claim global replay resistance |
+| Outbound token semantics | Low-level call success checked; recipient balance delta is not checked | Restrict supported tokens or verify exact outbound balance changes; test fee-on-transfer and rebasing behavior |
+| Direct transfers | No explicit surplus-accounting or rescue method in inspected source | Define surplus policy without permitting access to campaign liabilities |
+| Expiry and liveness | Refund depends on sponsor calling after deadline | Evaluate keeper-assisted execution that cannot redirect funds; test timestamp boundaries |
+| Returned state | remaining() reports arithmetic remainder even after refund | Improve API semantics or expose explicit lifecycle-aware liability; integration regression tests |
+| Rounding | Fee is rounded down per reward | Document dust and test partition sensitivity; choose economic policy |
+| External callback | Guard protects fund/pay/refund; no malicious-token test observed | Add reentrancy, false-return, malformed-return and callback mocks |
+| Stablecoin issuer controls | Freeze/blacklist behavior is outside the contract's control | Model rejected transfer and recovery scenarios; disclose liveness assumptions |
+| Test quality | Existing negative paths use try/catch and balance assertions | Prefer exact custom-error matching where practical; stateful multi-actor and differential tests |
+| Dependency reproducibility | CI selects Foundry stable; checkout/toolchain tags not immutable pins | Pin release and reviewed workflow action revisions; record compiler settings and artifacts |
+
+### Acceptance matrix for the next contract iteration
+
+| ID | Property | Method | Target outcome |
+|---|---|---|---|
+| EVM-01 | Conservation of funded assets | Stateful invariant across multiple sponsors and campaigns | No deficit or unauthorized value creation |
+| EVM-02 | Unique evidence settlement | Fuzz repeated IDs and evidence hashes | No duplicate payout within a campaign |
+| EVM-03 | Authority isolation | Multi-actor tests and exact reverts | No unauthorized payout or refund |
+| EVM-04 | Deadline boundary | Warp before, at and after deadline | Mutually exclusive payout/refund availability |
+| EVM-05 | Atomic rollback | Mock reverting or false-return tokens | Failed transfer leaves all economic state unchanged |
+| EVM-06 | External-call safety | Adversarial callback mock | No successful reentrant economic transition |
+| EVM-07 | Fee behavior | Differential comparison against reference model | Bounded fee reserve, documented rounding |
+| EVM-08 | Deployment reproducibility | Pinned compiler, ABI/bytecode hashes, testnet receipt | Reviewer can reproduce and reconcile release |
+| EVM-09 | Operational recovery | Failure injection and sponsor/verifier key-loss review | No undocumented privileged recovery path |
+
+These are target acceptance tests. Do not display them as passed until test logs and the reviewed commit are recorded.
+
+## 09 — Engineering research tracks
+
+The larger opportunity is modular infrastructure rather than an unrelated list of apps. The following tracks can be owned independently and assembled around a concrete use case.
+
+### A. Asset factory and distribution
+
+Research scope: minimal fixed-supply factory; explicit mint/upgrade permissions when required; deterministic allocation; vesting; Merkle proof distribution; funded claims; epoch expiry; event-based reconciliation. A deployment registry binds an asset to creator, chain, template version, runtime code hash and release evidence.
+
+Technical questions: factory provenance vs. deterministic CREATE2 addresses; migration of immutable templates; bitmap vs. mapping claim accounting; leaf encoding and domain separation; replay across chains; fee and gas optimization; ownership transfer and multisig control. A public release should contain a complete source/test/receipt trail rather than a deploy button alone.
+
+### B. Self-custodial exchange and financial execution
+
+Research scope: EVM quote adapters, normalized exact-input/exact-output quotes, allowance scope, deadlines, slippage bounds, route comparison, order signing, transaction simulation and settlement verification. Begin with interoperable integrations; a new pricing curve or liquidity mechanism requires an explicit advantage and economic analysis.
+
+Technical questions: MEV exposure; sandwich resistance and batch settlement; quote expiry and stale liquidity; nonstandard tokens; partial fills; duplicate order submissions; RPC failure; fee accounting; indexer lag. An AMM prototype must include reserve and invariant reasoning, rounding and adversarial execution tests, not only swap UI.
+
+### C. Onchain agent infrastructure
+
+Research scope: structured intents, constrained tool use, deterministic planning boundaries, wallet-authorized execution, budget tracking, evidence generation and independent verification. Model outputs are untrusted proposals until validated against current state and exact transaction parameters.
+
+Technical questions: separation of reasoning and authority; policy bypass; prompt injection from external market data; transaction simulation drift; allowance minimization; nonce synchronization; agent identity; scoped delegation; finality-aware receipts; failover without duplicate effects. The desired outcome is a measurable agent capability, not the number of defined agent roles.
+
+### D. Tokenized capital and real-world assets
+
+Research scope: representation of real obligations, asset onboarding, permissioned transfer policy where required, document attestations, servicing schedules, settlement and reconciliation. A legal right and a token record are distinct; tokenization does not create title or remove applicable obligations by itself.
+
+Technical questions: offchain document integrity, privacy-preserving attestations, verified issuer roles, reconciliation with existing books, payment defaults, redemption and dispute handling. Start with software and non-custodial infrastructure; actual asset issuance or financial activity needs its own evidence and appropriate authorized participants.
+
+### E. Protocol observability and proof
+
+Research scope: canonical event schema; immutable source references; chain receipt verifier; indexer reorg handling; signed evidence manifests; independent replay; incident recovery and reproducible builds. The system should make it possible to answer: what happened, under whose authority, on which chain, for what amount, and which evidence independently confirms it?
+
+## 10 — Benchmark-led engineering
+
+The references below are learning targets, not statements of feature parity, affiliation or equivalent security. Review their actual code, tests, interfaces and design tradeoffs before adopting a pattern.
+
+| Reference | Study target | What to reproduce in our own work |
+|---|---|---|
+| [Uniswap v4](https://github.com/Uniswap/v4-core) | Pool accounting, settlement boundaries, extensibility | Invariant-first protocol design and explicit callback trust |
+| [Aave V3](https://github.com/aave/aave-v3-core) | Lending risk and liquidity accounting | Clear solvency assumptions and multi-actor testing |
+| [Safe](https://github.com/safe-global/safe-smart-account) | Smart-account authorization and modular execution | Precise authority boundaries, signatures and replay protection |
+| [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) | Standard interfaces, access control, safe token primitives | Reuse audited building blocks without claiming the application is audited |
+| [Foundry](https://github.com/foundry-rs/foundry) | Solidity test, fuzz, invariant and fork toolchain | Reproducible contract QA and adversarial state-machine tests |
+| [Chainlink](https://github.com/smartcontractkit/chainlink) | Oracle architecture and external data dependencies | Freshness checks, failure behavior and explicit oracle assumptions |
+| [CoW Protocol](https://github.com/cowprotocol/contracts) | Signed orders, settlement and solver boundaries | Separate order authorization from settlement and attribute upstream code |
+| [Viem](https://github.com/wevm/viem) | Typed EVM integration and ABI handling | Strongly typed wallet interaction and receipt normalization |
+
+A benchmark should produce a decision record: problem, alternatives, observed upstream pattern, reason for adoption or rejection, test implications and expected business value. Do not equate copying a dependency or forking a UI with engineering originality.
+
+## 11 — Research and delivery program
+
+**Proposed milestones for a small joint team, sequenced by evidence rather than calendar promises.** A serious commercial opportunity can proceed in parallel with protocol R&D; no speculative token launch is a prerequisite to selling software or integrations.
+
+| Milestone | Deliverables | Exit evidence |
+|---|---|---|
+| M0 — Technical alignment | One actual use case; architecture inventory; explicit boundaries; ownership and contribution map | Agreed scope and reproducible baseline |
+| M1 — Reference protocol | Harden one escrow or settlement subsystem; state machine; dependency-pinned build | Passing unit and negative-path suite on a recorded commit |
+| M2 — Adversarial QA | Differential oracle, fuzz/invariant suite, malicious-token and multi-actor harness, static analysis | Reproducible results and triaged findings |
+| M3 — Testnet integration | Wallet-native flow, deploy script, verified contract addresses and event indexing | Public testnet transaction and independent reconciliation |
+| M4 — Product integration | Real user journey, typed SDK/API, quote and receipt handling, usability and failure cases | End-to-end test plus real user feedback |
+| M5 — Commercial validation | Scoped paid integration, partner pilot, or customer-ready software offer | Real customer outcome and settled payment when applicable |
+| M6 — Scale | Operational monitoring, dependency review, documented incident response, independent security review for funds-bearing releases | Reliability metrics and reviewed production release |
+
+### Quality and evidence scorecard
+
+Track actual measurements rather than decorative scores. Relevant metrics include deterministic build status; unit/fuzz/invariant results; uncovered branches; gas by operation; transaction failure/reconciliation rates; RPC latency and availability; time to reproduce a bug; external customer engagement; settled revenue; and incident recovery time. Numeric targets should be chosen after a baseline and use-case constraints are measured.
+
+For security-sensitive changes, review the effect on assets, authority, state transitions, external calls, storage, rounding, denial of service and failure recovery. Releases carrying real user value require evidence appropriate to their actual risk. Low-risk documentation, prototypes and integrations need not wait for unrelated audits.
+
+## 12 — Technical leadership and co-founder fit
+
+We are interested in people who can challenge assumptions and take ownership of outcomes, not merely implement a predefined task list.
+
+**Potential leadership mandate:** shape the technical thesis; choose the right protocol boundaries; establish engineering standards; lead architecture and security decisions; own a focused subsystem through testing, deployment and product adoption; participate in commercial and strategic decisions with the founder.
+
+**Discussion dimensions:** EVM and Solidity depth; protocol economics; distributed systems; security reasoning; ability to ship maintainable software; contribution to product and market fit; communication and mutual trust. Different candidates bring different strengths. No one is expected to possess every skill.
+
+### First joint working session
+
+An engineering discussion should be substantive and reciprocal:
+
+1. Each side explains a real project and its architectural constraints.
+2. Choose a concrete subsystem to inspect together: settlement, token factory, exchange integration, agent authorization or another relevant component.
+3. Reproduce one actual result, examine a failure case and debate a design tradeoff.
+4. Agree on a small mutually useful next milestone, ownership boundaries and evidence of success.
+5. Discuss roles and terms separately if there is a genuine technical and interpersonal fit.
+
+No unpaid hiring assignment is required to begin a conversation. A paid engagement, co-founder partnership, joint venture or integration is a distinct relationship with terms agreed by its participants.
+
+### Continuous engineering routine
+
+| Cadence | Practice | Artifact |
+|---|---|---|
+| Every change | Small reviewable commits, tests and peer review of economic or authorization changes | Commit / PR / reproducible result |
+| Weekly | Technical design review, benchmark research, delivery priorities, customer/partner observations | Decision record and scoped next milestone |
+| Every release | Verify exact source revision, build artifacts, chain configuration and deployment evidence | Release evidence manifest |
+| Monthly | Revisit architecture, economics, operational risk and user feedback; retire weak assumptions | Roadmap adjustment and evidence ledger |
+
+This cadence is a proposed joint working agreement. No scheduled agent or automatic repository update is claimed to be running.
+
+## 13 — Technical review entry points
+
+- [Public Solidity implementation and tests](https://github.com/Noetfield-Systems/SEEKMESH/tree/9e0e004d58949ebc7e26f300e96843554bbecf09)
+- [Independent accounting reference model](reference/escrow-accounting.mjs)
+- [Personal collaboration portal](https://sina-collaborate.vercel.app)
+
+The pinned public source was reopened and inspected for this edition. The available commit-workflow lookup returned no matching pull-request-triggered runs; therefore fresh Solidity CI results are not asserted. No unpublished project name, private source, credential, production configuration or ownership claim has been added. The architecture, research tracks, milestones and collaboration cadence are proposals for discussion, not completed system claims.
+
+**Last reviewed:** 2026-11-27. This dossier is intended to evolve with verified engineering outcomes.
