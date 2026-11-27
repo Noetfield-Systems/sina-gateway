@@ -5,6 +5,9 @@ async function request(path,opts){const r=await fetch(base+path,{...opts,redirec
 try{
 const home=await request('/');if(home.status!==200)throw Error('Anonymous homepage '+home.status);
 for(const p of ['/atlas','/atlas.html','/app.js','/aether.js','/api/projects','/portfolio/approved.json']){const r=await request(p);if(r.status!==404)throw Error('Unexpected public route '+p+' '+r.status)}
+const map=await request('/sitemap.xml');if(map.status!==200||!map.body.includes(base+'/'))throw Error('Sitemap unavailable');
+const robots=await request('/robots.txt');if(robots.status!==200||!robots.body.includes('Disallow: /api/'))throw Error('Robots invalid');
+for(const host of ['sina-venture-gateway-drnkcxopf-the-777-foundation.vercel.app','sina-venture-gateway-4vt1mift9-the-777-foundation.vercel.app','sina-venture-gateway-dtasof2qz-the-777-foundation.vercel.app']){const old=await fetch('https://'+host+'/',{redirect:'manual',signal:AbortSignal.timeout(10000)});console.log('HISTORICAL_URL '+host+' status='+old.status);if(old.status===200)throw Error('Historical deployment still anonymously accessible')}
 const read=await request('/api/inquiry');if(read.status!==405)throw Error('Public read '+read.status);
 const invalid=await request('/api/inquiry',{method:'POST',headers:{'content-type':'application/json'},body:'{}'});if(invalid.status!==400)throw Error('Invalid POST '+invalid.status);
 const valid=await request('/api/inquiry',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({category:'partnership',name:'Gateway V3 automated QA',email:marker,organization:'Synthetic QA only',message:'Synthetic technical acceptance test. Do not contact or count as a lead.',consent:'on'})});
