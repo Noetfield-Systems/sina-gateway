@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: MIT
+// First-party, browser-safe reference model. No real funds, RPC or execution of untrusted code.
+export class EscrowLab {
+ constructor(budget=100000n,bps=250n){if(typeof budget!=='bigint'||typeof bps!=='bigint'||budget<=0n||bps<0n||bps>500n)throw Error('INVALID_CONFIG');this.budget=budget;this.bps=bps;this.reserve=budget*bps/10000n;this.cash=budget+this.reserve;this.rewards=0n;this.fees=0n;this.refunds=0n;this.expired=false;this.closed=false;this.proofs=new Set();this.events=[{action:'FUND',result:'ACCEPTED',amount:String(this.cash)}];this.check()}
+ pay({role='verifier',proof,amount}){if(role!=='verifier')return this.reject('PAY','UNAUTHORIZED');if(this.closed||this.expired)return this.reject('PAY','CLOSED');if(typeof proof!=='string'||!proof.trim()||typeof amount!=='bigint'||amount<=0n)return this.reject('PAY','INVALID');if(this.proofs.has(proof))return this.reject('PAY','REPLAY');const f=amount*this.bps/10000n;if(amount>this.budget-this.rewards||f>this.reserve-this.fees)return this.reject('PAY','BUDGET');this.proofs.add(proof);this.cash-=amount+f;this.rewards+=amount;this.fees+=f;this.events.push({action:'PAY',result:'ACCEPTED',amount:String(amount),fee:String(f),proof});this.check();return true}
+ reject(action,result){this.events.push({action,result});this.check();return false}
+ expire(){if(this.closed||this.expired)return this.reject('EXPIRE','CLOSED');this.expired=true;this.events.push({action:'EXPIRE',result:'ACCEPTED'});this.check();return true}
+ refund(role='sponsor'){if(role!=='sponsor')return this.reject('REFUND','UNAUTHORIZED');if(!this.expired||this.closed)return this.reject('REFUND','NOT_REFUNDABLE');this.refunds=this.cash;this.cash=0n;this.closed=true;this.events.push({action:'REFUND',result:'ACCEPTED',amount:String(this.refunds)});this.check();return true}
+ check(){const funded=this.budget+this.reserve,liability=this.closed?0n:this.budget-this.rewards+this.reserve-this.fees;if(this.cash!==liability||funded!==this.cash+this.rewards+this.fees+this.refunds||this.rewards>this.budget||this.fees>this.reserve||this.cash<0n)throw Error('INVARIANT');return true}
+ snapshot(){return {funded:String(this.budget+this.reserve),cash:String(this.cash),rewards:String(this.rewards),fees:String(this.fees),refunds:String(this.refunds),state:this.closed?'Refunded':this.expired?'Expired':'Active',conservation:this.check(),events:this.events.slice()}}
+}
+// A deliberately limited evaluator: runs three predefined implementations on deterministic inputs.
+// Never evaluates visitor code or claims a model was called.
+export const implementations={legacy:(a,b)=>Math.floor((a+b)/2),candidate:(a,b)=>Math.round((a+b)/2),regression:(a,b)=>Math.max(a,b)};
+export const fixtures=[{id:'even',a:10,b:20,expected:15},{id:'odd',a:1,b:2,expected:2},{id:'negative',a:-3,b:-2,expected:-2},{id:'zero',a:0,b:0,expected:0},{id:'asymmetric',a:2,b:20,expected:11},{id:'high',a:999,b:1000,expected:1000}];
+export function evaluateCandidate(id){const fn=implementations[id];if(!Object.hasOwn(implementations,id))throw Error('UNKNOWN_IMPLEMENTATION');const cases=fixtures.map(c=>({...c,actual:fn(c.a,c.b),pass:fn(c.a,c.b)===c.expected}));return {id,passed:cases.filter(c=>c.pass).length,total:cases.length,cases,decision:cases.every(c=>c.pass)?'ACCEPT':'REVISE'}}
