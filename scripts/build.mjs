@@ -1,10 +1,12 @@
 import fs from 'node:fs';
+import {Resvg} from '@resvg/resvg-js';
+import {enhancePage,worldVisual,writeSocialSvg,territories} from '../lib/design-system.mjs';
 import {discoveryBriefs,renderDiscovery} from '../lib/discovery.mjs';
 import {curate,escapeHtml} from '../lib/portfolio.mjs';
 fs.rmSync('public/work',{recursive:true,force:true});
 const items=curate(JSON.parse(fs.readFileSync('portfolio/approved.json','utf8')));
 const base='https://sina-venture-gateway.vercel.app';
-for(const d of discoveryBriefs){const dir='public/discover/'+d.id;fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(dir+'/index.html',renderDiscovery(d,base));}
+for(const d of discoveryBriefs){const dir='public/discover/'+d.id;fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(dir+'/index.html',renderDiscovery(d,base).replace('<aside class="aside">',worldVisual(d)+'<aside class="aside">'));}
 const html=fs.readFileSync('public/index.html','utf8');
 const cards=items.map(e=>'<article class="tile"><h3><a href="/work/'+e.slug+'/">'+escapeHtml(e.title)+'</a></h3><p>'+escapeHtml(e.caseStudy.problem)+'</p></article>').join('');
 if(items.length){fs.writeFileSync('public/index.html',html.replace('<div id="case-studies"></div>','<div id="case-studies" class="grid">'+cards+'</div>'));}
@@ -12,3 +14,8 @@ for(const e of items){const dir='public/work/'+e.slug;fs.mkdirSync(dir,{recursiv
 fs.writeFileSync('public/robots.txt','User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: '+base+'/sitemap.xml\n');
 fs.writeFileSync('public/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+[base+'/',base+'/engineering/',base+'/discover/web3/',base+'/discover/markets/',...discoveryBriefs.map(d=>base+'/discover/'+d.id+'/'),...items.map(e=>base+'/work/'+e.slug+'/')].map(u=>'<url><loc>'+u+'</loc></url>').join('')+'</urlset>');
 console.log('Public cases generated:',items.length);
+
+// Apply the same page shell after the existing curated publication pipeline.
+for(const [path,id] of [['public/index.html','home'],['public/engineering/index.html','engineering'],['public/discover/web3/index.html','web3'],['public/discover/markets/index.html','markets'],...discoveryBriefs.map(d=>['public/discover/'+d.id+'/index.html',d.id]),...items.map(d=>['public/work/'+d.slug+'/index.html','case'])]){const page=fs.readFileSync(path,'utf8');fs.writeFileSync(path,enhancePage(page,id));}
+writeSocialSvg('public/assets/social');for(const id of ['home',...territories.map(t=>t.id)]){const path='public/assets/social/'+id;const png=new Resvg(fs.readFileSync(path+'.svg'),{font:{loadSystemFonts:true,defaultFontFamily:'DejaVu Sans'}}).render().asPng();fs.writeFileSync(path+'.png',png);}
+console.log('V5 design shell: 19 public pages plus approved cases; 17 PNG social previews');
