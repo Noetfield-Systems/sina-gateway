@@ -1,0 +1,12 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import {curate,score,weights,caseFields,escapeHtml} from '../lib/portfolio.mjs';import {validateInquiry,categories} from '../lib/inquiry.mjs';
+const entries=JSON.parse(fs.readFileSync('portfolio/approved.json','utf8')),html=fs.readFileSync('public/index.html','utf8'),api=fs.readFileSync('api/inquiry.mjs','utf8');
+test('allowlist: default deny and explicit founder authority',()=>{assert.deepEqual(curate([]),[]);assert.throws(()=>curate([{slug:'fixture'}]));curate(entries)});
+test('private project exposure: reject unapproved even at high score',()=>assert.throws(()=>curate([{slug:'fixture',ratings:Object.fromEntries(Object.keys(weights).map(k=>[k,100]))}])));
+test('weighted scoring',()=>assert.equal(score(Object.fromEntries(Object.keys(weights).map(k=>[k,100]))),100));
+test('API: no public read route or credential in client',()=>{assert.match(api,/req.method!=='POST'/);assert.doesNotMatch(html,/DATABASE_URL|postgresql:\/\//)});
+test('metadata: no internal inventory',()=>assert.doesNotMatch(html.match(/<head>[\s\S]*?<\/head>/)[0],/github|Founder OS|Agent OS|atlas/i));
+test('client bundle: no automated project inventory or external script',()=>{assert.doesNotMatch(html,/github\.com|<script[^>]+src=|\/atlas|\/api\/projects/i);assert.equal((html.match(/fetch\(/g)||[]).length,1)});
+test('cross-venture isolation: public build has no private data imports',()=>{assert.deepEqual(fs.readdirSync('portfolio'),['approved.json']);assert.match(api,/GATEWAY_DATABASE_URL/);assert.doesNotMatch(api,/founder_os|company_os|agent_os/i)});
+test('sitemap/search: only generated from curated projects',()=>{const s=fs.readFileSync('scripts/build.mjs','utf8');assert.match(s,/items\.map\(e=>base\+'\/work\//);assert.match(s,/Disallow: \/api\//)});
+test('case schema and escaping',()=>{assert.equal(caseFields.length,11);assert.equal(escapeHtml('<script>'),'&lt;script&gt;')});
+test('inquiry validation and spam rejection',()=>{const x={category:categories[0],name:'QA',email:'qa@example.com',message:'Synthetic validation fixture only.',consent:'on'};assert.ok(validateInquiry(x));assert.equal(validateInquiry({...x,website:'bot'}),null);assert.equal(validateInquiry({...x,consent:'no'}),null);assert.equal(validateInquiry({...x,email:'bad'}),null)});
