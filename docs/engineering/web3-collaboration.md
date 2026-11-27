@@ -224,8 +224,8 @@ An authorization is bound to the chain, contract, call parameters, amount, deadl
 The following TypeScript interface sketches are design targets, not implemented SDK declarations.
 
 ```typescript
-type Address = \`0x\${string}\`;
-type Hash = \`0x\${string}\`;
+type Address = `0x${string}`;
+type Hash = `0x${string}`;
 
 type EconomicIntent = {
   id: string;
