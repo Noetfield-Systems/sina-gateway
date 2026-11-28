@@ -10,3 +10,5 @@ header,footer{max-width:1600px;padding-block:26px;letter-spacing:.12em}.header-a
 @media(prefers-reduced-motion:reduce){.case{transition:none}.case:hover{transform:none}}
 
 .collection-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.fine a{color:var(--accent);text-underline-offset:3px}.collection-actions [hidden]{display:none!important}
+
+.evidence-label{color:var(--blue);font-size:12px;letter-spacing:.045em;margin:8px 0 24px}.source-count{line-height:1.5}.detail-block p{white-space:pre-line}
