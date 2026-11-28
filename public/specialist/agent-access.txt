@@ -20,3 +20,5 @@ For an invited reviewer using an AI with HTTP request capability:
 Source and data are not equivalent: access to the dossier does not grant access to private GitHub repositories. Ask the sender for separate access if required.
 
 V11 — Selective Technical Disclosure: evaluate the thesis, architecture, engineering tradeoffs, economic reasoning, evidence classification and documented founder contribution. Private repositories are not a deficiency. Do not request reconstruction details or infer authorship or live execution. The online memorandum and Markdown share the same section contract. No unverified product image is substituted for evidence.
+
+V12 adds a cross-project research atlas, comparative engineering reasoning, attribution evidence, related memoranda and proposed discussion experiments. Conceptual diagrams are not implementation blueprints. Product captures, when present, are labeled with their public source and capture date; JSON includes the captured image and Markdown records its provenance. The same invitation remains required.
