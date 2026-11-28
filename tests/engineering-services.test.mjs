@@ -21,3 +21,21 @@ test('service inquiry matches existing development intake contract',()=>{
  assert.equal(validateInquiry({...input,consent:null}),null);
  assert.equal(validateInquiry({...input,website:'bot'}),null);
 });
+
+test('published product catalog agrees with the human offer page',()=>{
+ const catalog=JSON.parse(fs.readFileSync(new URL('../public/services/catalog.json',import.meta.url),'utf8'));
+ assert.equal(catalog.currency,'CAD');
+ assert.equal(catalog.offers.length,7);
+ const ids=new Set();
+ for(const o of catalog.offers){
+  assert.ok(!ids.has(o.id));ids.add(o.id);
+  assert.ok(Number.isInteger(o.price)&&o.price>0);
+  for(const field of ['scope','deliverable','acceptance','exclusions','buyer','duration'])assert.ok(o[field]);
+  assert.ok(page.includes('data-offer="'+o.id+'"'));
+  assert.ok(page.includes('value="'+o.id+'" data-practice="'+o.practice+'"'));
+  assert.ok(page.includes('From CAD $'+o.price.toLocaleString('en-CA')));
+ }
+ assert.ok(page.includes("Offer: "));
+ assert.ok(page.includes('/services/catalog.json'));
+ assert.doesNotThrow(()=>new Function(page.split('<script>')[1].split('</script>')[0]));
+});
