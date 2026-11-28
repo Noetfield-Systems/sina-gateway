@@ -25,7 +25,8 @@ export default async function handler(req,res){
   if(!['owner','specialist'].includes(mode))return res.status(401).json({error:'Invitation unavailable.'});
   const rows=await sql`SELECT c.payload,c.visibility FROM specialist_cases c JOIN specialist_grants g ON g.scope=c.scope WHERE g.token_hash=${input.hash} AND g.scope=${input.scope} AND g.revoked_at IS NULL AND g.expires_at>now() AND (g.audience='owner' OR (g.audience='specialist' AND c.visibility='approved' AND c.approval_ref IS NOT NULL AND c.slug=ANY(g.allowed_slugs))) ORDER BY c.rank,c.slug`;
   const cases=rows.map(r=>presentCase({...r.payload,visibility:r.visibility},mode)).filter(Boolean);
-  if(mode==='specialist'&&input.scope==='web3'&&(cases.length!==rows.length||cases.some(c=>c.edition!=='V11')))return res.status(503).json({error:'Collection edition unavailable.'});
+  if(mode==='specialist'&&input.scope==='web3'&&(cases.length!==rows.length||cases.some(c=>c.edition!=='V12')))return res.status(503).json({error:'Collection edition unavailable.'});
+  const allowed=new Set(cases.map(c=>c.slug));for(const c of cases)c.related_slugs=c.related_slugs.filter(s=>s!==c.slug&&allowed.has(s));
   const data={scope:input.scope,mode,cases};
   if(String(req.headers.accept||'').includes('text/markdown')){res.setHeader('Content-Type','text/markdown; charset=utf-8');return res.status(200).send(renderMarkdown(data));}
   return res.status(200).json(data);
