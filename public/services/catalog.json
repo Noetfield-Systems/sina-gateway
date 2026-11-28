@@ -1,0 +1,106 @@
+{
+  "brand": "Sina Engineering",
+  "tagline": "Applied AI. Global Software.",
+  "currency": "CAD",
+  "priceType": "indicative starting fee; final quote required",
+  "availability": "subject to scope and scheduling",
+  "booking": {
+    "method": "POST",
+    "endpoint": "/api/inquiry",
+    "category": "development",
+    "instructions": "Use the public inquiry form for consent and selected offer; no instant checkout."
+  },
+  "offers": [
+    {
+      "id": "locale-ready",
+      "practice": "localization",
+      "name": "LocaleReady Audit",
+      "price": 950,
+      "duration": "5 business days",
+      "buyer": "SaaS product and localization teams",
+      "scope": "One web application, one repository, up to 10 representative screens and two target locales.",
+      "deliverable": "Prioritized i18n findings, pseudo-localization and RTL checks, remediation roadmap.",
+      "acceptance": "Reproducible findings with severity, affected surface and proposed fix.",
+      "exclusions": "Translation, remediation and production rollout.",
+      "outcome": "Know what must change before entering a new market."
+    },
+    {
+      "id": "language-benchmark",
+      "practice": "evaluation",
+      "name": "LanguageBench",
+      "price": 1500,
+      "duration": "7 business days",
+      "buyer": "AI product and ML teams",
+      "scope": "One text AI workflow, two target languages, up to 50 agreed test cases.",
+      "deliverable": "Evaluation dataset, reproducible scoring harness, quality baseline and failure analysis.",
+      "acceptance": "Run results by locale and documented scoring rubric.",
+      "exclusions": "Native-linguist validation, retraining and third-party usage charges.",
+      "outcome": "Find where AI quality drops across languages."
+    },
+    {
+      "id": "locops-connect",
+      "practice": "locops",
+      "name": "LocOps Connect",
+      "price": 3500,
+      "duration": "2–3 weeks",
+      "buyer": "Localization providers and globalization teams",
+      "scope": "One repository, one supported TMS or translation API, one CI workflow.",
+      "deliverable": "Working integration, terminology checks, error handling and runbook.",
+      "acceptance": "A test change flows through the agreed integration with recorded result.",
+      "exclusions": "TMS licenses, translation fees and additional integrations.",
+      "outcome": "Replace repetitive localization handoffs with a tested pipeline."
+    },
+    {
+      "id": "global-ai-pilot",
+      "practice": "multilingual",
+      "name": "Global AI Pilot",
+      "price": 4500,
+      "duration": "3 weeks",
+      "buyer": "AI and SaaS product teams",
+      "scope": "One text assistant or search workflow, one data source and two locales.",
+      "deliverable": "Multilingual prototype, retrieval and evaluation baseline, deployment handoff.",
+      "acceptance": "Agreed test questions executed in both locales with documented results.",
+      "exclusions": "Production SLA, dataset licensing and custom model training.",
+      "outcome": "Validate a multilingual AI experience before scaling."
+    },
+    {
+      "id": "applied-ai-build",
+      "practice": "ai-ml",
+      "name": "Applied AI Build",
+      "price": 4000,
+      "duration": "2–3 weeks",
+      "buyer": "Founders and product engineering teams",
+      "scope": "One bounded AI use case, one model provider and one data source.",
+      "deliverable": "Working application integration, tests and deployment instructions.",
+      "acceptance": "Demonstrated agreed use case with recorded test results.",
+      "exclusions": "Model training, ongoing hosting and additional workflows.",
+      "outcome": "Turn a defined AI use case into working software."
+    },
+    {
+      "id": "agent-workflow",
+      "practice": "agents",
+      "name": "Agent Workflow Pilot",
+      "price": 3500,
+      "duration": "2–3 weeks",
+      "buyer": "Operations and engineering teams",
+      "scope": "One workflow with up to two authorized tool integrations.",
+      "deliverable": "Agent execution path, scoped permissions, failure handling and acceptance tests.",
+      "acceptance": "Successful test execution with trace and controlled failure case.",
+      "exclusions": "Unbounded autonomy, enterprise SLAs and additional connectors.",
+      "outcome": "Connect AI to an actual operational task."
+    },
+    {
+      "id": "inference-tune",
+      "practice": "inference",
+      "name": "InferenceTune",
+      "price": 1800,
+      "duration": "7 business days",
+      "buyer": "ML infrastructure and AI application teams",
+      "scope": "One model workload and one agreed target hardware or hosting environment.",
+      "deliverable": "Baseline latency, memory and cost metrics; tuned configuration and reproducible comparison.",
+      "acceptance": "Repeatable before-and-after measurement under the same workload.",
+      "exclusions": "Hardware, provider charges and guaranteed performance gains.",
+      "outcome": "Identify practical cost and performance improvements."
+    }
+  ]
+}
